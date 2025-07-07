@@ -31,23 +31,14 @@ export default class Pawn extends Piece {
         }
 
         // verify that there is no other piece there
-        if (this.isInBoard(oneSquareNext) && board.getPiece(oneSquareNext) == undefined) {
+        if (board.isInBoard(oneSquareNext) && board.getPiece(oneSquareNext) == undefined) {
             availableMoves.push(oneSquareNext);
 
             // verify that both squares are free as a pawn cannot jump over a piece
-            if (twoSquareNext  && this.isInBoard(twoSquareNext) && board.getPiece(twoSquareNext) == undefined)
+            if (twoSquareNext  && board.isInBoard(twoSquareNext) && board.getPiece(twoSquareNext) == undefined)
                 availableMoves.push(twoSquareNext);
         }
 
         return availableMoves;
-    }
-
-
-    private isInBoard(position: Square) {
-        if (position.row >= 0 && position.col >= 0
-            && position.row < GameSettings.BOARD_SIZE && position.col < GameSettings.BOARD_SIZE)
-            return true;
-
-        return false;
     }
 }

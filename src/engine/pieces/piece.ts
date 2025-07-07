@@ -6,6 +6,7 @@ import GameSettings from "../gameSettings";
 
 export default class Piece {
     public player: Player;
+    private tookPieceBefore: boolean = false;
 
     public constructor(player: Player) {
         this.player = player;
@@ -34,9 +35,11 @@ export default class Piece {
 
             let availableSquare = new Square(rowIndex, currentSquare.col);
 
-            if (board.getPiece(availableSquare) != undefined)
+            if (this.helperAvailableMoves(board, availableSquare) != -1)
+                availableMoves.push(availableSquare);
+            else
                 break;
-            availableMoves.push(availableSquare);
+
         }
 
         rowIndex = currentSquare.row;
@@ -46,9 +49,11 @@ export default class Piece {
 
             let availableSquare = new Square(rowIndex, currentSquare.col);
 
-            if (board.getPiece(availableSquare) != undefined)
+            if (this.helperAvailableMoves(board, availableSquare) != -1)
+                availableMoves.push(availableSquare);
+            else
                 break;
-            availableMoves.push(availableSquare);
+
         }
 
         // add every square on the same row as the piece
@@ -57,9 +62,11 @@ export default class Piece {
 
             let availableSquare = new Square(currentSquare.row, colIndex);
 
-            if (board.getPiece(availableSquare) != undefined)
+            if (this.helperAvailableMoves(board, availableSquare) != -1)
+                availableMoves.push(availableSquare);
+            else
                 break;
-            availableMoves.push(availableSquare);
+
         }
 
         colIndex = currentSquare.col;
@@ -69,9 +76,10 @@ export default class Piece {
 
             let availableSquare = new Square(currentSquare.row, colIndex);
 
-            if (board.getPiece(availableSquare) != undefined)
+            if (this.helperAvailableMoves(board, availableSquare) != -1)
+                availableMoves.push(availableSquare);
+            else
                 break;
-            availableMoves.push(availableSquare);
         }
 
         return availableMoves;
@@ -96,6 +104,9 @@ export default class Piece {
 
             if (board.getPiece(nextSquare) != undefined)
                 break;
+            else
+                this.tookPieceBefore = true;
+
             availableMoves.push(new Square(indexRow, indexCol));
         }
 
@@ -159,11 +170,34 @@ export default class Piece {
             let newRow = currentSquare.row + rowDelta[i];
             let newCol = currentSquare.col + colDelta[i];
 
-            // count valid moves
-            if (newRow >= 0 && newCol >= 0 && newRow < gameSettings.BOARD_SIZE && newCol < gameSettings.BOARD_SIZE)
-                availableSquares.push(new Square(newRow, newCol));
+            let nextSquare = new Square(newRow, newCol);
+
+            // add only valid moves
+            if (board.isInBoard(nextSquare))
+                availableSquares.push(nextSquare);
         }
 
         return availableSquares;
+    }
+
+    private isOppositePiece(piece: Piece | undefined) {
+        return piece?.player != this.player;
+    }
+
+    private helperAvailableMoves(board: Board, availableSquare: Square) {
+        if (this.tookPieceBefore)
+            return -1;
+
+        if (board.getPiece(availableSquare) != undefined) {
+            if (board.isKing(board.getPiece(availableSquare)))
+                return -1;
+
+            if (!this.isOppositePiece(board.getPiece(availableSquare)))
+                return -1;
+            else if (!this.tookPieceBefore)
+                this.tookPieceBefore = true;
+        }
+
+        return 0;
     }
 }

@@ -2,6 +2,7 @@ import Player from './player';
 import GameSettings from './gameSettings';
 import Square from './square';
 import Piece from './pieces/piece';
+import King from "./pieces/king";
 
 export default class Board {
     public currentPlayer: Player;
@@ -64,5 +65,14 @@ export default class Board {
         }
 
         return false;
+    }
+
+    public isInBoard(position: Square) {
+        return position.row >= 0 && position.col >= 0
+            && position.row < GameSettings.BOARD_SIZE && position.col < GameSettings.BOARD_SIZE;
+    }
+
+    public isKing(piece: Piece | undefined) {
+        return piece instanceof King;
     }
 }

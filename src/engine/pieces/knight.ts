@@ -10,7 +10,6 @@ export default class Knight extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-
         let rowDelta = [2, 1, -1, -2, -2, -1, 1, 2];
         let colDelta = [1, 2, 2, 1, -1, -2, -2, -1];
 
