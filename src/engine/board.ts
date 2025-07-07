@@ -7,11 +7,10 @@ export default class Board {
     public currentPlayer: Player;
     private readonly board: (Piece | undefined)[][];
 
-    public constructor(currentPlayer) {
+    public constructor(currentPlayer?: any) {
         this.currentPlayer = currentPlayer ? currentPlayer : Player.WHITE;
         this.board = this.createBoard();
     }
-
     public setPiece(square: Square, piece: Piece | undefined) {
         this.board[square.row][square.col] = piece;
     }
