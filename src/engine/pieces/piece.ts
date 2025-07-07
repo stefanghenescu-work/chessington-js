@@ -57,8 +57,7 @@ export default class Piece {
         while (startRow > 0 && startCol > 0) {
             startRow--;
             startCol--;
-            let availableSquare = new Square(startRow, startCol);
-            availableMoves.push(availableSquare);
+            availableMoves.push(new Square(startRow, startCol));
         }
 
         // reset starting position
@@ -69,8 +68,7 @@ export default class Piece {
         while (startRow > 0 && startCol < gameSettings.BOARD_SIZE - 1) {
             startRow--;
             startCol++;
-            let availableSquare = new Square(startRow, startCol);
-            availableMoves.push(availableSquare);
+            availableMoves.push(new Square(startRow, startCol));
         }
 
         // reset starting position
@@ -80,8 +78,7 @@ export default class Piece {
         while (startRow < gameSettings.BOARD_SIZE - 1 && startCol < gameSettings.BOARD_SIZE - 1) {
             startRow++;
             startCol++;
-            let availableSquare = new Square(startRow, startCol);
-            availableMoves.push(availableSquare);
+            availableMoves.push(new Square(startRow, startCol));
         }
 
         // reset starting position
@@ -91,8 +88,7 @@ export default class Piece {
         while (startRow < gameSettings.BOARD_SIZE - 1 && startCol > 0) {
             startRow++;
             startCol--;
-            let availableSquare = new Square(startRow, startCol);
-            availableMoves.push(availableSquare);
+            availableMoves.push(new Square(startRow, startCol));
         }
 
         return availableMoves;
