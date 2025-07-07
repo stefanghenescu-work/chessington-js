@@ -2,6 +2,7 @@ import Player from '../player';
 import Board from '../board';
 import Square from '../square';
 import gameSettings from "../gameSettings";
+import GameSettings from "../gameSettings";
 
 export default class Piece {
     public player: Player;
@@ -20,24 +21,56 @@ export default class Piece {
     }
 
     // method for getting available squares in lateral position to the current square
-    availableLateralMoves(currentSquare: Square) {
+    availableLateralMoves(board: Board) {
+        const currentSquare = board.findPiece(this);
         let availableMoves: Array<Square> = new Array<Square>();
 
+        let rowIndex = currentSquare.row;
+        let colIndex = currentSquare.col;
+
         // add every square on the same column as the piece
-        for (let rowIndex = 0; rowIndex < gameSettings.BOARD_SIZE; rowIndex++) {
-            if (rowIndex == currentSquare.row)
-                continue;
+        while (rowIndex > 0) {
+            rowIndex--;
 
             let availableSquare = new Square(rowIndex, currentSquare.col);
+
+            if (board.getPiece(availableSquare) != undefined)
+                break;
+            availableMoves.push(availableSquare);
+        }
+
+        rowIndex = currentSquare.row;
+
+        while (rowIndex < GameSettings.BOARD_SIZE - 1) {
+            rowIndex++;
+
+            let availableSquare = new Square(rowIndex, currentSquare.col);
+
+            if (board.getPiece(availableSquare) != undefined)
+                break;
             availableMoves.push(availableSquare);
         }
 
         // add every square on the same row as the piece
-        for (let colIndex = 0; colIndex < gameSettings.BOARD_SIZE; colIndex++) {
-            if (colIndex == currentSquare.col)
-                continue;
+        while (colIndex > 0) {
+            colIndex--;
 
             let availableSquare = new Square(currentSquare.row, colIndex);
+
+            if (board.getPiece(availableSquare) != undefined)
+                break;
+            availableMoves.push(availableSquare);
+        }
+
+        colIndex = currentSquare.col;
+
+        while (colIndex < GameSettings.BOARD_SIZE - 1) {
+            colIndex++;
+
+            let availableSquare = new Square(currentSquare.row, colIndex);
+
+            if (board.getPiece(availableSquare) != undefined)
+                break;
             availableMoves.push(availableSquare);
         }
 
@@ -45,7 +78,8 @@ export default class Piece {
     }
 
     // method for getting available squares in diagonal position to the current square
-    availableDiagonalMoves(currentSquare: Square) {
+    availableDiagonalMoves(board: Board) {
+        const currentSquare = board.findPiece(this);
         let availableMoves: Array<Square> = new Array<Square>();
 
         let startRow = currentSquare.row;
@@ -95,7 +129,8 @@ export default class Piece {
     }
 
 
-    availableNearMoves(currentSquare: Square, rowDelta: Array<number>, colDelta: Array<number>) {
+    availableNearMoves(board: Board, rowDelta: Array<number>, colDelta: Array<number>) {
+        const currentSquare = board.findPiece(this);
         let availableSquares = new Array<Square>();
 
         for (let i = 0; i < 8; i++) {

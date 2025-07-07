@@ -10,8 +10,6 @@ export default class Bishop extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        const currentSquare = board.findPiece(this);
-
-        return this.availableDiagonalMoves(currentSquare);
+        return this.availableDiagonalMoves(board);
     }
 }

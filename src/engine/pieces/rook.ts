@@ -10,8 +10,6 @@ export default class Rook extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        const currentSquare = board.findPiece(this);
-
-        return this.availableLateralMoves(currentSquare);
+        return this.availableLateralMoves(board);
     }
 }

@@ -10,11 +10,10 @@ export default class Knight extends Piece {
     }
 
     public getAvailableMoves(board: Board) {
-        const currentSquare = board.findPiece(this);
 
         let rowDelta = [2, 1, -1, -2, -2, -1, 1, 2];
         let colDelta = [1, 2, 2, 1, -1, -2, -2, -1];
 
-        return this.availableNearMoves(currentSquare, rowDelta, colDelta);
+        return this.availableNearMoves(board, rowDelta, colDelta);
     }
 }
