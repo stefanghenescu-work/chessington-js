@@ -4,11 +4,9 @@ import Square from '../square';
 
 export default class Piece {
     public player: Player;
-    firstMove: Boolean;
 
     public constructor(player: Player) {
         this.player = player;
-        this.firstMove = true;
     }
 
     public getAvailableMoves(board: Board) {
@@ -18,8 +16,5 @@ export default class Piece {
     public moveTo(board: Board, newSquare: Square) {
         const currentSquare = board.findPiece(this);
         board.movePiece(currentSquare, newSquare);
-
-        // set the flag for first move
-        this.firstMove = false;
     }
 }

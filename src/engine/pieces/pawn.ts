@@ -17,12 +17,12 @@ export default class Pawn extends Piece {
         // verify whose turn is it
         if (this.player == Player.WHITE) {
             // first move can be of 2 squares
-            if (this.firstMove)
+            if (board.whiteFirstMove)
                 twoSquareNext = new Square(currentSquare.row + 2, currentSquare.col);
             oneSquareNext = new Square(currentSquare.row + 1, currentSquare.col);
         } else {
             // first move can be of 2 squares
-            if (this.firstMove)
+            if (board.blackFirstMove)
                 twoSquareNext = new Square(currentSquare.row - 2, currentSquare.col);
             oneSquareNext = new Square(currentSquare.row - 1, currentSquare.col);
         }
