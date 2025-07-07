@@ -102,12 +102,10 @@ export default class Piece {
 
             let nextSquare = new Square(indexRow, indexCol);
 
-            if (board.getPiece(nextSquare) != undefined)
-                break;
+            if (this.helperAvailableMoves(board, nextSquare) != -1)
+                availableMoves.push(nextSquare);
             else
-                this.tookPieceBefore = true;
-
-            availableMoves.push(new Square(indexRow, indexCol));
+                break;
         }
 
         // reset starting position
@@ -121,9 +119,10 @@ export default class Piece {
 
             let nextSquare = new Square(indexRow, indexCol);
 
-            if (board.getPiece(nextSquare) != undefined)
+            if (this.helperAvailableMoves(board, nextSquare) != -1)
+                availableMoves.push(nextSquare);
+            else
                 break;
-            availableMoves.push(new Square(indexRow, indexCol));
         }
 
         // reset starting position
@@ -136,9 +135,10 @@ export default class Piece {
 
             let nextSquare = new Square(indexRow, indexCol);
 
-            if (board.getPiece(nextSquare) != undefined)
+            if (this.helperAvailableMoves(board, nextSquare) != -1)
+                availableMoves.push(nextSquare);
+            else
                 break;
-            availableMoves.push(new Square(indexRow, indexCol));
         }
 
         // reset starting position
@@ -151,9 +151,10 @@ export default class Piece {
 
             let nextSquare = new Square(indexRow, indexCol);
 
-            if (board.getPiece(nextSquare) != undefined)
+            if (this.helperAvailableMoves(board, nextSquare) != -1)
+                availableMoves.push(nextSquare);
+            else
                 break;
-            availableMoves.push(new Square(indexRow, indexCol));
         }
 
         return availableMoves;
