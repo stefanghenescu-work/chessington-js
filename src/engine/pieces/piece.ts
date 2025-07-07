@@ -82,47 +82,67 @@ export default class Piece {
         const currentSquare = board.findPiece(this);
         let availableMoves: Array<Square> = new Array<Square>();
 
-        let startRow = currentSquare.row;
-        let startCol = currentSquare.col;
+        let indexRow = currentSquare.row;
+        let indexCol = currentSquare.col;
 
         // look on every diagonal starting from the square of the bishop until I hit a margin
 
         // first diagonal
-        while (startRow > 0 && startCol > 0) {
-            startRow--;
-            startCol--;
-            availableMoves.push(new Square(startRow, startCol));
+        while (indexRow > 0 && indexCol > 0) {
+            indexRow--;
+            indexCol--;
+
+            let nextSquare = new Square(indexRow, indexCol);
+
+            if (board.getPiece(nextSquare) != undefined)
+                break;
+            availableMoves.push(new Square(indexRow, indexCol));
         }
 
         // reset starting position
-        startRow = currentSquare.row;
-        startCol = currentSquare.col;
+        indexRow = currentSquare.row;
+        indexCol = currentSquare.col;
 
         // second diagonal
-        while (startRow > 0 && startCol < gameSettings.BOARD_SIZE - 1) {
-            startRow--;
-            startCol++;
-            availableMoves.push(new Square(startRow, startCol));
+        while (indexRow > 0 && indexCol < gameSettings.BOARD_SIZE - 1) {
+            indexRow--;
+            indexCol++;
+
+            let nextSquare = new Square(indexRow, indexCol);
+
+            if (board.getPiece(nextSquare) != undefined)
+                break;
+            availableMoves.push(new Square(indexRow, indexCol));
         }
 
         // reset starting position
-        startRow = currentSquare.row;
-        startCol = currentSquare.col;
+        indexRow = currentSquare.row;
+        indexCol = currentSquare.col;
 
-        while (startRow < gameSettings.BOARD_SIZE - 1 && startCol < gameSettings.BOARD_SIZE - 1) {
-            startRow++;
-            startCol++;
-            availableMoves.push(new Square(startRow, startCol));
+        while (indexRow < gameSettings.BOARD_SIZE - 1 && indexCol < gameSettings.BOARD_SIZE - 1) {
+            indexRow++;
+            indexCol++;
+
+            let nextSquare = new Square(indexRow, indexCol);
+
+            if (board.getPiece(nextSquare) != undefined)
+                break;
+            availableMoves.push(new Square(indexRow, indexCol));
         }
 
         // reset starting position
-        startRow = currentSquare.row;
-        startCol = currentSquare.col;
+        indexRow = currentSquare.row;
+        indexCol = currentSquare.col;
 
-        while (startRow < gameSettings.BOARD_SIZE - 1 && startCol > 0) {
-            startRow++;
-            startCol--;
-            availableMoves.push(new Square(startRow, startCol));
+        while (indexRow < gameSettings.BOARD_SIZE - 1 && indexCol > 0) {
+            indexRow++;
+            indexCol--;
+
+            let nextSquare = new Square(indexRow, indexCol);
+
+            if (board.getPiece(nextSquare) != undefined)
+                break;
+            availableMoves.push(new Square(indexRow, indexCol));
         }
 
         return availableMoves;
