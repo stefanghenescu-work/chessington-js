@@ -93,4 +93,22 @@ export default class Piece {
 
         return availableMoves;
     }
+
+
+    availableNearMoves(currentSquare: Square, rowDelta: Array<number>, colDelta: Array<number>) {
+        let availableSquares = new Array<Square>();
+
+        for (let i = 0; i < 8; i++) {
+
+            // Position of knight after move
+            let newRow = currentSquare.row + rowDelta[i];
+            let newCol = currentSquare.col + colDelta[i];
+
+            // count valid moves
+            if (newRow >= 0 && newCol >= 0 && newRow < gameSettings.BOARD_SIZE && newCol < gameSettings.BOARD_SIZE)
+                availableSquares.push(new Square(newRow, newCol));
+        }
+
+        return availableSquares;
+    }
 }
