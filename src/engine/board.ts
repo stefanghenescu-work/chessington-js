@@ -2,16 +2,20 @@ import Player from './player';
 import GameSettings from './gameSettings';
 import Square from './square';
 import Piece from './pieces/piece';
+import King from "./pieces/king";
 
 export default class Board {
     public currentPlayer: Player;
     private readonly board: (Piece | undefined)[][];
+    public whiteFirstMove: boolean;
+    public blackFirstMove: boolean;
 
-    public constructor() {
-        this.currentPlayer = Player.WHITE;
+    public constructor(currentPlayer?: any) {
+        this.currentPlayer = currentPlayer ? currentPlayer : Player.WHITE;
         this.board = this.createBoard();
+        this.whiteFirstMove = true;
+        this.blackFirstMove = true;
     }
-
     public setPiece(square: Square, piece: Piece | undefined) {
         this.board[square.row][square.col] = piece;
     }
@@ -36,6 +40,7 @@ export default class Board {
         if (!!movingPiece && movingPiece.player === this.currentPlayer) {
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);
+            this.playerFirstMove();
             this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
         }
     }
@@ -46,5 +51,28 @@ export default class Board {
             board[i] = new Array(GameSettings.BOARD_SIZE);
         }
         return board;
+    }
+
+    public playerFirstMove() {
+        if (this.currentPlayer === Player.BLACK && this.blackFirstMove) {
+            this.blackFirstMove = false;
+            return true;
+        }
+
+        if (this.currentPlayer === Player.WHITE && this.whiteFirstMove) {
+            this.whiteFirstMove = false;
+            return true;
+        }
+
+        return false;
+    }
+
+    public isInBoard(position: Square) {
+        return position.row >= 0 && position.col >= 0
+            && position.row < GameSettings.BOARD_SIZE && position.col < GameSettings.BOARD_SIZE;
+    }
+
+    public isKing(piece: Piece | undefined) {
+        return piece instanceof King;
     }
 }
