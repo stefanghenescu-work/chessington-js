@@ -42,6 +42,9 @@ export default class Piece {
 
         }
 
+        // reset if for next turn
+        this.tookPieceBefore = false;
+
         rowIndex = currentSquare.row;
 
         while (rowIndex < GameSettings.BOARD_SIZE - 1) {
@@ -56,6 +59,9 @@ export default class Piece {
 
         }
 
+        // reset if for next turn
+        this.tookPieceBefore = false;
+
         // add every square on the same row as the piece
         while (colIndex > 0) {
             colIndex--;
@@ -69,6 +75,9 @@ export default class Piece {
 
         }
 
+        // reset if for next turn
+        this.tookPieceBefore = false;
+
         colIndex = currentSquare.col;
 
         while (colIndex < GameSettings.BOARD_SIZE - 1) {
@@ -81,6 +90,9 @@ export default class Piece {
             else
                 break;
         }
+
+        // reset if for next turn
+        this.tookPieceBefore = false;
 
         return availableMoves;
     }
@@ -108,6 +120,9 @@ export default class Piece {
                 break;
         }
 
+        // reset if for next turn
+        this.tookPieceBefore = false;
+
         // reset starting position
         indexRow = currentSquare.row;
         indexCol = currentSquare.col;
@@ -125,6 +140,9 @@ export default class Piece {
                 break;
         }
 
+        // reset if for next turn
+        this.tookPieceBefore = false;
+
         // reset starting position
         indexRow = currentSquare.row;
         indexCol = currentSquare.col;
@@ -141,6 +159,9 @@ export default class Piece {
                 break;
         }
 
+        // reset if for next turn
+        this.tookPieceBefore = false;
+
         // reset starting position
         indexRow = currentSquare.row;
         indexCol = currentSquare.col;
@@ -156,6 +177,9 @@ export default class Piece {
             else
                 break;
         }
+
+        // reset if for next turn
+        this.tookPieceBefore = false;
 
         return availableMoves;
     }
@@ -177,7 +201,6 @@ export default class Piece {
             if (board.isInBoard(nextSquare) && !board.isKing(board.getPiece(nextSquare))
                 && this.isOppositePiece(board.getPiece(nextSquare)))
                 availableSquares.push(nextSquare);
-
         }
 
         return availableSquares;
