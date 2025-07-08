@@ -173,9 +173,11 @@ export default class Piece {
 
             let nextSquare = new Square(newRow, newCol);
 
-            // add only valid moves
-            if (board.isInBoard(nextSquare))
+            // add only valid moves and cannot take other king
+            if (board.isInBoard(nextSquare) && !board.isKing(board.getPiece(nextSquare))
+                && this.isOppositePiece(board.getPiece(nextSquare)))
                 availableSquares.push(nextSquare);
+
         }
 
         return availableSquares;
