@@ -21,7 +21,11 @@ export default class Piece {
         board.movePiece(currentSquare, newSquare);
     }
 
-    // method for getting available squares in lateral position to the current square
+    /**
+     * method for getting available squares in lateral positions to the current square
+     * @param board - the board on which the game is played
+     * @return availableMoves - an array of squares on which the piece can move
+     */
     availableLateralMoves(board: Board) {
         const currentSquare = board.findPiece(this);
         let availableMoves: Array<Square> = new Array<Square>();
@@ -35,7 +39,7 @@ export default class Piece {
 
             let availableSquare = new Square(rowIndex, currentSquare.col);
 
-            if (this.helperAvailableMoves(board, availableSquare) != -1)
+            if (this.helperAvailableSquare(board, availableSquare) != -1)
                 availableMoves.push(availableSquare);
             else
                 break;
@@ -52,7 +56,7 @@ export default class Piece {
 
             let availableSquare = new Square(rowIndex, currentSquare.col);
 
-            if (this.helperAvailableMoves(board, availableSquare) != -1)
+            if (this.helperAvailableSquare(board, availableSquare) != -1)
                 availableMoves.push(availableSquare);
             else
                 break;
@@ -68,7 +72,7 @@ export default class Piece {
 
             let availableSquare = new Square(currentSquare.row, colIndex);
 
-            if (this.helperAvailableMoves(board, availableSquare) != -1)
+            if (this.helperAvailableSquare(board, availableSquare) != -1)
                 availableMoves.push(availableSquare);
             else
                 break;
@@ -85,7 +89,7 @@ export default class Piece {
 
             let availableSquare = new Square(currentSquare.row, colIndex);
 
-            if (this.helperAvailableMoves(board, availableSquare) != -1)
+            if (this.helperAvailableSquare(board, availableSquare) != -1)
                 availableMoves.push(availableSquare);
             else
                 break;
@@ -97,7 +101,11 @@ export default class Piece {
         return availableMoves;
     }
 
-    // method for getting available squares in diagonal position to the current square
+    /**
+     * method for getting available squares in diagonal position to the current square
+     * @param board - the board on which the game is played
+     * @return availableMoves - an array of squares on which the piece can move
+     */
     availableDiagonalMoves(board: Board) {
         const currentSquare = board.findPiece(this);
         let availableMoves: Array<Square> = new Array<Square>();
@@ -114,7 +122,7 @@ export default class Piece {
 
             let nextSquare = new Square(indexRow, indexCol);
 
-            if (this.helperAvailableMoves(board, nextSquare) != -1)
+            if (this.helperAvailableSquare(board, nextSquare) != -1)
                 availableMoves.push(nextSquare);
             else
                 break;
@@ -134,7 +142,7 @@ export default class Piece {
 
             let nextSquare = new Square(indexRow, indexCol);
 
-            if (this.helperAvailableMoves(board, nextSquare) != -1)
+            if (this.helperAvailableSquare(board, nextSquare) != -1)
                 availableMoves.push(nextSquare);
             else
                 break;
@@ -153,7 +161,7 @@ export default class Piece {
 
             let nextSquare = new Square(indexRow, indexCol);
 
-            if (this.helperAvailableMoves(board, nextSquare) != -1)
+            if (this.helperAvailableSquare(board, nextSquare) != -1)
                 availableMoves.push(nextSquare);
             else
                 break;
@@ -172,7 +180,7 @@ export default class Piece {
 
             let nextSquare = new Square(indexRow, indexCol);
 
-            if (this.helperAvailableMoves(board, nextSquare) != -1)
+            if (this.helperAvailableSquare(board, nextSquare) != -1)
                 availableMoves.push(nextSquare);
             else
                 break;
@@ -185,9 +193,18 @@ export default class Piece {
     }
 
 
+    //
+    /**
+     * method for preknown positions relative to the piece position
+     * implemented by knight and king
+     * @param board - the board on which the game is played
+     * @param rowDelta - an array of relative index positions for rows
+     * @param colDelta - an array of relative index positions for columns
+     * @return availableMoves - an array of squares on which the piece can move
+     */
     availableNearMoves(board: Board, rowDelta: Array<number>, colDelta: Array<number>) {
         const currentSquare = board.findPiece(this);
-        let availableSquares = new Array<Square>();
+        let availableMoves = new Array<Square>();
 
         for (let i = 0; i < 8; i++) {
 
@@ -200,17 +217,20 @@ export default class Piece {
             // add only valid moves and cannot take other king
             if (board.isInBoard(nextSquare) && !board.isKing(board.getPiece(nextSquare))
                 && this.isOppositePiece(board.getPiece(nextSquare)))
-                availableSquares.push(nextSquare);
+                availableMoves.push(nextSquare);
         }
 
-        return availableSquares;
+        return availableMoves;
     }
 
+    /**
+     * verifies if another piece, if exists, is from the other player
+     */
     public isOppositePiece(piece: Piece | undefined) {
         return piece?.player != this.player;
     }
 
-    private helperAvailableMoves(board: Board, availableSquare: Square) {
+    private helperAvailableSquare(board: Board, availableSquare: Square) {
         if (this.tookPieceBefore)
             return -1;
 

@@ -43,14 +43,14 @@ export default class Pawn extends Piece {
                 availableMoves.push(twoSquareNext);
 
             // verify diagonal move to take opposite piece
-            this.verifyDiagonalMove(board, availableMoves, diagonalSquareLeft);
-            this.verifyDiagonalMove(board, availableMoves, diagonalSquareRight);
+            this.verifyTakeMove(board, availableMoves, diagonalSquareLeft);
+            this.verifyTakeMove(board, availableMoves, diagonalSquareRight);
         }
 
         return availableMoves;
     }
 
-    private verifyDiagonalMove(board: Board, availableMoves: Array<Square>, diagonalSquare: Square) {
+    private verifyTakeMove(board: Board, availableMoves: Array<Square>, diagonalSquare: Square) {
         let diagonalPiece = board.getPiece(diagonalSquare);
 
         if (board.isInBoard(diagonalSquare) && diagonalPiece != undefined
