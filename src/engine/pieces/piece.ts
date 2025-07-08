@@ -183,7 +183,7 @@ export default class Piece {
         return availableSquares;
     }
 
-    private isOppositePiece(piece: Piece | undefined) {
+    public isOppositePiece(piece: Piece | undefined) {
         return piece?.player != this.player;
     }
 

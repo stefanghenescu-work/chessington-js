@@ -14,20 +14,24 @@ export default class Pawn extends Piece {
         const currentSquare = board.findPiece(this);
         let oneSquareNext;
         let twoSquareNext = undefined;
+        let diagonalSquareLeft;
+        let diagonalSquareRight;
 
         // verify whose turn is it
         if (this.player == Player.WHITE) {
             // first move can be of 2 squares
-            if (board.whiteFirstMove) {
+            if (board.whiteFirstMove)
                 twoSquareNext = new Square(currentSquare.row + 2, currentSquare.col);
-            }
             oneSquareNext = new Square(currentSquare.row + 1, currentSquare.col);
+            diagonalSquareLeft = new Square(currentSquare.row + 1, currentSquare.col - 1);
+            diagonalSquareRight = new Square(currentSquare.row + 1, currentSquare.col + 1);
         } else {
             // first move can be of 2 squares
-            if (board.blackFirstMove) {
+            if (board.blackFirstMove)
                 twoSquareNext = new Square(currentSquare.row - 2, currentSquare.col);
-            }
             oneSquareNext = new Square(currentSquare.row - 1, currentSquare.col);
+            diagonalSquareLeft = new Square(currentSquare.row - 1, currentSquare.col - 1);
+            diagonalSquareRight = new Square(currentSquare.row - 1, currentSquare.col + 1);
         }
 
         // verify that there is no other piece there
@@ -37,8 +41,20 @@ export default class Pawn extends Piece {
             // verify that both squares are free as a pawn cannot jump over a piece
             if (twoSquareNext  && board.isInBoard(twoSquareNext) && board.getPiece(twoSquareNext) == undefined)
                 availableMoves.push(twoSquareNext);
+
+            // verify diagonal move to take opposite piece
+            this.verifyDiagonalMove(board, availableMoves, diagonalSquareLeft);
+            this.verifyDiagonalMove(board, availableMoves, diagonalSquareRight);
         }
 
         return availableMoves;
+    }
+
+    private verifyDiagonalMove(board: Board, availableMoves: Array<Square>, diagonalSquare: Square) {
+        let diagonalPiece = board.getPiece(diagonalSquare);
+
+        if (board.isInBoard(diagonalSquare) && diagonalPiece != undefined
+            && this.isOppositePiece(diagonalPiece) && !board.isKing(diagonalPiece))
+            availableMoves.push(diagonalSquare);
     }
 }
